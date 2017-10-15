@@ -1,6 +1,7 @@
 **/js_test_files/**/*
 gulp-tasks/**/*
 gulpfile.js
+gulp-config.js
 pattern-lab/**/*
 docroot/libraries/**/*
 **/sassdoc/**/*
