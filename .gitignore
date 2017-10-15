@@ -19,3 +19,7 @@ node_modules
 /docroot/themes/contrib/
 /docroot/profiles/contrib/
 /docroot/libraries/
+
+# Ignore folders built by theme
+/docroot/themes/custom/*/dist/*
+!/docroot/themes/custom/*/dist/.gitkeep
