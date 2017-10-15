@@ -27,7 +27,7 @@ if (isset($_ENV['AH_SITE_ENVIRONMENT'])) {
   $secrets_directory = '/mnt/gfs/home/' . '/' . $_ENV['AH_SITE_GROUP'] . '/' . $_ENV['AH_SITE_ENVIRONMENT'] . '/nobackup';
 }
 
-if (file_exists($secrets_directory)) {
+if (file_exists($secrets_directory . '/settings.secrets.php')) {
   require $secrets_directory . '/settings.secrets.php';
 }
 
