@@ -1,0 +1,108 @@
+# Required environmental variables should be set via the CircleCI web interface:
+#
+# - ACQUIA_USER i
+#     Cloud API E-mail
+# - ACQUIA_TOKEN
+#     Cloud API Private key. Located in your profile under security.
+#     See: https://docs.acquia.com/acquia-cloud/api/auth
+# - ACQUIA_CANONICAL_ENV
+#     Environment to get database from. Usually "prod".
+# - ACQUIA_ENDPOINT
+#     Cloud API Endpoint. Usually "https://cloudapi.acquia.com/v1".
+# - ACQUIA_REALM
+#     Cloud API Realm. Usually "prod" or "devcloud".
+#     See: https://docs.acquia.com/acquia-cloud/api#realm
+# - ACQUIA_SITE
+#     Cloud API Site parameter.
+# - ACQUIA_REPO
+#     Acquia git repo url.
+# - ACQUIA_BOT_EMAIL
+#     Email used to commit deployment commits.
+# - ACQUIA_BOT_NAME
+#     Display name use for the deployment committer.
+
+machine:
+  php:
+    version: 5.6.22
+  node:
+    version: 5.0.0
+  pre: []
+  hosts:
+    circleci.local: 127.0.0.1
+dependencies:
+  pre:
+    - echo "memory_limit = 512M" > ~/.phpenv/versions/$(phpenv global)/etc/conf.d/memory.ini
+  cache_directories:
+    - ~/.composer
+    - node_modules
+    - ~/.drush
+    - circle/artifacts
+  post:
+    # Set up global commands.
+    - sudo ln -s ~/$CIRCLE_PROJECT_REPONAME/vendor/bin/drush /usr/bin/drush
+    - sudo ln -s ~/$CIRCLE_PROJECT_REPONAME/vendor/bin/phpcs /usr/bin/phpcs
+
+    # Fail early if code quality is an issue.
+	  - gulp lint
+
+    # Build assets here.
+    - gulp build
+
+    # Configure drush.
+    - sudo mkdir -p ~/.drush
+    - sudo chown -R ubuntu:ubuntu ~/.drush
+    - cp ./circle/circleci.aliases.drushrc.php ~/.drush
+    - drush cc drush
+
+    # Drupal settings.
+    - cp ./circle/settings.local.php ./docroot/sites/default/settings.local.php
+
+    # Get the Database. For files I suggest Stage File Proxy.
+    - sudo chmod +x ./scripts/acquia/acquia-get-db-backup.sh
+    - sudo chmod +rx ./scripts/acquia/acquia-get-db-backup-id.php
+    - ./scripts/acquia/acquia-get-db-backup.sh $ACQUIA_REALM:$ACQUIA_SITE $ACQUIA_CANONICAL_ENV $ACQUIA_SITE
+
+    # Get the canonical database and files. Try two times. Sometimes the first one stalls out.
+    - drush @circleci.local fresh
+
+    # Run updates, cache clears, etc.
+    - drush @circleci.local local
+
+    # Configure Apache.
+    - cp ./circle/circleci /etc/apache2/sites-available
+    - sudo a2ensite circleci
+    - sudo a2enmod rewrite
+    - sudo service apache2 restart
+test:
+  override:
+    - echo "Put Test Commands Here"
+deployment:
+  dev:
+    branch: [develop, /release-.*/ , master]
+    commands:
+    - mkdir ~/git_vars
+    - echo "Deploying to the $CIRCLE_BRANCH on Acquia."
+    - git config --global user.email "$ACQUIA_BOT_EMAIL"
+    - git config --global user.name "$ACQUIA_BOT_NAME"
+    - git remote add acquia $ACQUIA_REPO
+    - git fetch acquia
+    - sed -i '1,/######## ACQUIA IGNORE ABOVE ########/d' .gitignore
+    # Remove any .git directories that may exist in vendor libraries* so those
+    # libraries don't get excluded from our repo. Remember kiddies somedir/*
+    # returns all files/dirs that are NOT dot (hidden). This protects our repos'
+    # .git folder from being blown away.
+    - find ./* -type d | grep .git | xargs rm -rf
+    # Remove unwanted gitignores here. Follow the example below.
+    # Remove simplesamlphp .gitignore which would cause our config and metadata
+    # symlinks to be ignored. If it's already not there, GREAT!
+    # - rm ./vendor/simplesamlphp/simplesamlphp/.gitignore || exit 0
+    # Commit and push to Acquia.
+    - git add .
+    - git commit -am "Built assets."
+    - >
+      if [[ "$CIRCLE_BRANCH" == "master" ]]; then
+        echo "Creating Tag  $( cat ~/git_vars/tag )"
+        git -C ~/acquia tag -am "Automated release cut by CircleCI from $CIRCLE_SHA1" $( date +%Y-%m-%d-%H-%M-%S )
+      fi
+    - git push origin $CIRCLE_BRANCH -f --tags
+    - echo "If deployment was successful, Acquia Cloud dev/post-code-update hook will handle importing config, updating db, and clearing caches."
