@@ -1,0 +1,8 @@
+{
+  "extends": "./docroot/.eslintrc.json",
+  "globals": {
+    "Typekit": true,
+    "L": true,
+    "fitvids": true,
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "example-acquia-8-composer",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "project-gulp": "^1.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fourkitchens/example-acquia-8-composer.git"
+  },
+  "author": "Allan Chappell",
+  "bugs": {
+    "url": "https://github.com/fourkitchens/example-acquia-8-composer/issues"
+  },
+  "homepage": "https://github.com/fourkitchens/example-acquia-8-composer#readme"
+}
