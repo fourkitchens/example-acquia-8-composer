@@ -25,13 +25,13 @@ machine:
   php:
     version: 5.6.22
   node:
-    version: 5.0.0
+    version: 8.2.0
   pre: []
   hosts:
     circleci.local: 127.0.0.1
 dependencies:
   pre:
-    - echo "memory_limit = 512M" > ~/.phpenv/versions/$(phpenv global)/etc/conf.d/memory.ini
+    - echo "memory_limit = 512M" > $PHPENV_ROOT/versions/$(phpenv global)/etc/conf.d/memory.ini
   cache_directories:
     - ~/.composer
     - node_modules
