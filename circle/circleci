@@ -1,0 +1,27 @@
+Listen 8080
+
+<VirtualHost *:8080>
+  DocumentRoot /home/ubuntu/{{CIRCLE_PROJECT_REPONAME}}/docroot
+  ServerName circleci.local
+
+  <Directory /home/ubuntu/{{CIRCLE_PROJECT_REPONAME}}/docroot>
+    Options FollowSymLinks
+    AllowOverride All
+    RewriteEngine On
+    RewriteBase /
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule /home/ubuntu/{{CIRCLE_PROJECT_REPONAME}}/build/(.*)$ index.php/?q=$1 [L,QSA]
+    Order allow,deny
+    Allow from all
+  </Directory>
+
+  <Directory />
+    Options FollowSymLinks
+    AllowOverride None
+  </Directory>
+
+  <FilesMatch \.php$>
+    SetHandler application/x-httpd-php
+  </FilesMatch>
+</VirtualHost>

@@ -1,6 +1,6 @@
 # Required environmental variables should be set via the CircleCI web interface:
 #
-# - ACQUIA_USER i
+# - ACQUIA_USER
 #     Cloud API E-mail
 # - ACQUIA_TOKEN
 #     Cloud API Private key. Located in your profile under security.
@@ -43,7 +43,7 @@ dependencies:
     - sudo ln -s ~/$CIRCLE_PROJECT_REPONAME/vendor/bin/phpcs /usr/bin/phpcs
 
     # Fail early if code quality is an issue.
-	  - gulp lint
+    - gulp lint
 
     # Build assets here.
     - gulp build
@@ -51,7 +51,7 @@ dependencies:
     # Configure drush.
     - sudo mkdir -p ~/.drush
     - sudo chown -R ubuntu:ubuntu ~/.drush
-    - cp ./circle/circleci.aliases.drushrc.php ~/.drush
+    - sed 's@{{CIRCLE_PROJECT_REPONAME}}@$CIRCLE_PROJECT_REPONAME@' ./circle/circleci.aliases.drushrc.php > ~/.drush/circleci.aliases.drushrc.php
     - drush cc drush
 
     # Drupal settings.
@@ -69,7 +69,7 @@ dependencies:
     - drush @circleci.local local
 
     # Configure Apache.
-    - cp ./circle/circleci /etc/apache2/sites-available
+    - sed 's@{{CIRCLE_PROJECT_REPONAME}}@$CIRCLE_PROJECT_REPONAME@' ./circle/circleci > /etc/apache2/sites-available
     - sudo a2ensite circleci
     - sudo a2enmod rewrite
     - sudo service apache2 restart
