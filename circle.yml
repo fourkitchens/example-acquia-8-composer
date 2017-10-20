@@ -32,6 +32,7 @@ machine:
 dependencies:
   pre:
     - echo "memory_limit = 512M" > $PHPENV_ROOT/versions/$(phpenv global)/etc/conf.d/memory.ini
+    - "[[ ! -s \"$(git rev-parse --git-dir)/shallow\" ]] || git fetch --unshallow"
   cache_directories:
     - ~/.composer
     - node_modules
