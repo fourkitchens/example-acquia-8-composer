@@ -86,7 +86,7 @@ deployment:
     - git config --global user.name "$ACQUIA_BOT_NAME"
     - git remote add acquia $ACQUIA_REPO
     - git fetch acquia
-    - sed -i '1,/######## ACQUIA IGNORE ABOVE ########/d' .gitignore
+    - "sed -i '1,/######## ACQUIA IGNORE ABOVE ########/d' .gitignore"
     # Remove any .git directories that may exist in vendor libraries* so those
     # libraries don't get excluded from our repo. Remember kiddies somedir/*
     # returns all files/dirs that are NOT dot (hidden). This protects our repos'
