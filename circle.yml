@@ -99,10 +99,5 @@ deployment:
     # Commit and push to Acquia.
     - git add .
     - git commit -am "Built assets."
-    - >
-      if [[ "$CIRCLE_BRANCH" == "master" ]]; then
-        echo "Creating Tag  $( cat ~/git_vars/tag )"
-        git -C ~/acquia tag -am "Automated release cut by CircleCI from $CIRCLE_SHA1" $( date +%Y-%m-%d-%H-%M-%S )
-      fi
     - git push origin $CIRCLE_BRANCH -f --tags
     - echo "If deployment was successful, Acquia Cloud dev/post-code-update hook will handle importing config, updating db, and clearing caches."
