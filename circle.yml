@@ -51,7 +51,7 @@ dependencies:
     # Configure drush.
     - sudo mkdir -p ~/.drush
     - sudo chown -R ubuntu:ubuntu ~/.drush
-    - sed 's@{{CIRCLE_PROJECT_REPONAME}}@$CIRCLE_PROJECT_REPONAME@' ./circle/circleci.aliases.drushrc.php > ~/.drush/circleci.aliases.drushrc.php
+    - sed "s@{{CIRCLE_PROJECT_REPONAME}}@$CIRCLE_PROJECT_REPONAME@" ./circle/circleci.aliases.drushrc.php > ~/.drush/circleci.aliases.drushrc.php
     - drush cc drush
 
     # Drupal settings.
