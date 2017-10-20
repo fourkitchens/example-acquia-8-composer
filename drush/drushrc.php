@@ -9,6 +9,9 @@
 
 $options['shell-aliases'] = [];
 
+// Supply backup.sql.gz and optionally files.tar.gz for a local restore point
+// for development.
+
 $options['shell-aliases']['fresh'] = '!( ' . implode(" ) && \n ( ", [
   "echo '\nInstalling PHP packages...'",
   "cd ..; composer install; cd docroot",
@@ -20,7 +23,7 @@ $options['shell-aliases']['fresh'] = '!( ' . implode(" ) && \n ( ", [
   "drush sql-drop -y",
 
   "echo '\nImporting reference database...'",
-  "gunzip < ../reference/nyu-wagner.sql.gz | sed '/INSERT INTO `cache.*` VALUES/d' | drush sql-cli",
+  "gunzip < ../reference/backup.sql.gz | sed '/INSERT INTO `cache.*` VALUES/d' | drush sql-cli",
 
   "echo '\nSetting admin password...'",
   "drush user-password 1 --password=admin",
