@@ -50,7 +50,7 @@ then
   while [[ $state != "done" && $state != "error"  && $COUNTER -lt 200 ]]
   do
     # Checking consumes resources, so wait for 3 seconds between checks.
-    sleep 3
+    sleep 10
     let COUNTER=COUNTER+1
     json="$(drush $1 ac-task-info $id --format=json)"
     if [[ $? -gt 0 ]]
