@@ -16,7 +16,7 @@ $settings['file_scan_ignore_directories'] = [
 ];
 
 $settings['entity_update_batch_size'] = 50;
-$config_directories['sync'] = '../config/default';
+$config_directories['sync'] = $app_root . '/../config/default';
 
 // Get Acquia database settings.
 if (file_exists('/var/www/site-php')) {

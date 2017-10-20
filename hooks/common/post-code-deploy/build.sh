@@ -52,11 +52,11 @@ helper_script_dir="$( dirname $0 )/../../../scripts/acquia"
 $helper_script_dir/wait_for_cloud_done.sh @$site.$target_env ac-database-instance-backup $site
 
 # If we aren't on the cononical env, pull in cononical's db and files
-if [ "$target_env" != "$ACQUIA_CANONICAL_ENV" ]
-then
-  #$helper_script_dir/wait_for_cloud_done.sh @$site.$ACQUIA_CANONICAL_ENV ac-database-copy $site $target_env
-  #$helper_script_dir/wait_for_cloud_done.sh @$site.$ACQUIA_CANONICAL_ENV ac-files-copy $target_env
-fi
+#if [ "$target_env" != "$ACQUIA_CANONICAL_ENV" ]
+#then
+#  $helper_script_dir/wait_for_cloud_done.sh @$site.$ACQUIA_CANONICAL_ENV ac-database-copy $site $target_env
+#  $helper_script_dir/wait_for_cloud_done.sh @$site.$ACQUIA_CANONICAL_ENV ac-files-copy $target_env
+#fi
 
 echo "Starting Build for $target_env"
 if [ "$target_env" = 'dev' ]
