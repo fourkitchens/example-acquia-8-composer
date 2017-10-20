@@ -17,6 +17,15 @@ deployed_tag="$4"
 repo_url="$5"
 repo_type="$6"
 
+# You must set up the following variables in
+# /mnt/gfs/home/$site/$target_env/nobackup/bashkeys.sh
+#
+# - `ACQUIA_USER`
+#    Cloud API E-mail
+# - `ACQUIA_TOKEN`
+#    Cloud API Private key. Located in your profile under security.
+#    See: https://docs.acquia.com/acquia-cloud/api/auth
+
 ACQUIA_ENDPOINT="https://cloudapi.acquia.com/v1"
 
 # Grab Keys
