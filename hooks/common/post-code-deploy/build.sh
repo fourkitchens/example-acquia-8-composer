@@ -27,7 +27,7 @@ repo_type="$6"
 #    See: https://docs.acquia.com/acquia-cloud/api/auth
 
 ACQUIA_ENDPOINT="https://cloudapi.acquia.com/v1"
-
+ACQUIA_CANONICAL_ENV="test"
 # Grab Keys
 # @see https://docs.acquia.com/acquia-cloud/files/system-files/private
 source /mnt/gfs/home/$site/$target_env/nobackup/bashkeys.sh
@@ -51,8 +51,8 @@ helper_script_dir="$( dirname $0 )/../../../scripts/acquia"
 # Backing up current environment.
 $helper_script_dir/wait_for_cloud_done.sh @$site.$target_env ac-database-instance-backup $site
 
-# If we aren't on prod, pull in prod's db and files
-if [ "$target_env" != 'prod' ]
+# If we aren't on the cononical env, pull in cononical's db and files
+if [ "$target_env" != "$ACQUIA_CONONICAL_ENV" ]
 then
   $helper_script_dir/wait_for_cloud_done.sh @$site.prod ac-database-copy $site $target_env
   $helper_script_dir/wait_for_cloud_done.sh @$site.prod ac-files-copy $target_env
