@@ -32,7 +32,7 @@ ACQUIA_CANONICAL_ENV="test"
 # @see https://docs.acquia.com/acquia-cloud/files/system-files/private
 source /mnt/gfs/home/$site/$target_env/nobackup/bashkeys.sh
 
-if [ -z "$WAGNER_DRUSH_USER" ]
+if [ -z "$ACQUIA_USER" ]
 then
   echo "There are no drush keys set up for this environment."
   exit 1;
