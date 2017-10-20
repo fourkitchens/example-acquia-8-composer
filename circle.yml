@@ -99,5 +99,5 @@ deployment:
     # Commit and push to Acquia.
     - git add .
     - git commit -am "Built assets."
-    - git push origin $CIRCLE_BRANCH -f --tags
+    - git push acquia $CIRCLE_BRANCH -f --tags
     - echo "If deployment was successful, Acquia Cloud dev/post-code-update hook will handle importing config, updating db, and clearing caches."
