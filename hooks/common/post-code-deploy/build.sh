@@ -17,6 +17,8 @@ deployed_tag="$4"
 repo_url="$5"
 repo_type="$6"
 
+ACQUIA_ENDPOINT="https://cloudapi.acquia.com/v1"
+
 # Grab Keys
 # @see https://docs.acquia.com/acquia-cloud/files/system-files/private
 source /mnt/gfs/home/$site/$target_env/nobackup/bashkeys.sh
@@ -26,7 +28,7 @@ then
   echo "There are no drush keys set up for this environment."
   exit 1;
 else
-  drush @$site.$target_env ac-api-login --email=$WAGNER_DRUSH_USER --key=$WAGNER_DRUSH_KEY --endpoint=https://cloudapi.acquia.com/v1
+  drush @$site.$target_env ac-api-login --email=$ACQUIA_USER --key=$ACQUIA_TOKEN --endpoint=$ACQUIA_ENDPOINT
 fi
 
 if [ -f /mnt/gfs/home/$site/$target_env/nobackup/skipbuild ]
