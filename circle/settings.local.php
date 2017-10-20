@@ -18,4 +18,4 @@ $databases = array(
     ),
   ),
 );
-
+$settings['hash_salt'] = "RANDOMHASHSALT";
