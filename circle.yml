@@ -69,7 +69,7 @@ dependencies:
     - drush @circleci.local local
 
     # Configure Apache.
-    - sed "s@{{CIRCLE_PROJECT_REPONAME}}@$CIRCLE_PROJECT_REPONAME@" ./circle/circleci > /etc/apache2/sites-available
+    - sed "s@{{CIRCLE_PROJECT_REPONAME}}@$CIRCLE_PROJECT_REPONAME@" ./circle/circleci > /etc/apache2/sites-available/circleci
     - sudo a2ensite circleci
     - sudo a2enmod rewrite
     - sudo service apache2 restart
