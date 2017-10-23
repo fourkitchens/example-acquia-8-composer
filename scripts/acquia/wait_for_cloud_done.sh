@@ -40,7 +40,7 @@ then
   echo "    Command: $drush_command"
   jsonfile=$(mktemp /tmp/wait_for_cloud_done.XXXXXX)
   $drush_command --format=json > $jsonfile
-  id="$( php -r "\$json = json_decode(file_get_contents($jsonfile)); echo \$json->id;" )"
+  id="$( php -r "\$json = json_decode(file_get_contents('$jsonfile')); echo \$json->id;" )"
 
   echo "    Task: $id"
   rm $jsonfile;
@@ -50,7 +50,7 @@ then
   # Hard timeout at 10 minutes
   while [[ $state != "done" && $state != "error"  && $COUNTER -lt 60 ]]
   do
-    # Checking consumes resources, so wait for 3 seconds between checks.
+    # Checking consumes resources, so wait for 10 seconds between checks.
     sleep 10
     let COUNTER=COUNTER+1
     jsonfile=$(mktemp /tmp/wait_for_cloud_done.XXXXXX)
@@ -63,8 +63,8 @@ then
     then
       echo "drush ac-task-info didn't return any data."
     fi
-    state="$( php -r "\$json = json_decode(file_get_contents($jsonfile)); echo \$json->state;" )"
-    newlogs="$( php -r "\$json = json_decode(file_get_contents($jsonfile)); echo \$json->logs;" )"
+    state="$( php -r "\$json = json_decode(file_get_contents('$jsonfile')); echo \$json->state;" )"
+    newlogs="$( php -r "\$json = json_decode(file_get_contents('$jsonfile')); echo \$json->logs;" )"
     rm $jsonfile
     if [[ $newlogs != $oldlogs ]]
     then
