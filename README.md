@@ -4,6 +4,27 @@
 
 ### Git Repo
 
+Copy over the following folders and files to your repository
+
+- circle
+- config
+- docroot/sites/default/settings.php
+- drush
+- gulp-tasks
+- hooks
+- .eslintignore
+- .eslintrc
+- .gitignore
+- .phpcsignore
+- circle.yml
+- composer.json
+- gulp-config.js
+- gulpfile.js
+- package.json
+
+Feel free to switch out the asset building pieces and linting pieces with your
+own. Also to affect the local and prod builds see drush/drushrc.php
+
 ### Circle CI
 
 Set up the following Environment Variables on your project.
@@ -51,3 +72,8 @@ mkdir /mnt/gfs/home/[REPLACE_WITH_SITE]/[REPLACE_WITH_ENV]/nobackup/
 echo "ACQUIA_USER=user@email.com" >> /mnt/gfs/home/[REPLACE_WITH_SITE]/[REPLACE_WITH_ENV]/nobackup/bashkeys.sh
 echo "ACQUIA_TOKEN=[REPLACE_WITH_ACQUIA_TOKEN]" >> /mnt/gfs/home/[REPLACE_WITH_SITE]/[REPLACE_WITH_ENV]/nobackup/bashkeys.sh
 ```
+
+## References
+
+If you wish to see a super detailed walkthrough of how it works, see this
+[presentation](https://camp.drupal.cornell.edu/sessions/continuous-integration-acquia).

@@ -2,7 +2,7 @@
 # Runs an acquia task, and waits for the task to complete before continuing.
 # This is a helper script, to be used in others as needed.
 #
-# @see https://gist.github.com/heathdutton/cc29284de3934706acd1
+# @see https://gist.github.com/generalredneck/44875680786c6ca6cd6713aa5e5adb7d
 
 if [[ $1 = "" ]] || [[ $2 = "" ]]
 then
