@@ -16,7 +16,6 @@ $settings['file_scan_ignore_directories'] = [
 ];
 
 $settings['entity_update_batch_size'] = 50;
-$config_directories['sync'] = $app_root . '/../config/default';
 
 // Get Acquia database settings.
 if (file_exists('/var/www/site-php')) {
@@ -30,6 +29,8 @@ if (isset($_ENV['AH_SITE_ENVIRONMENT'])) {
 if (file_exists($secrets_directory . '/settings.secrets.php')) {
   require $secrets_directory . '/settings.secrets.php';
 }
+
+$config_directories['sync'] = $app_root . '/../config/default';
 
 if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {
   include $app_root . '/' . $site_path . '/settings.local.php';
