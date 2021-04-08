@@ -1,5 +1,7 @@
 # Example Acquia Drupal 8 Site with CI
 
+Note: this setup has been updated by https://github.com/fourkitchens/example-acquia-8-composer-circle2 which validates under CircleCI.
+
 ## Setup
 
 ### Git Repo
